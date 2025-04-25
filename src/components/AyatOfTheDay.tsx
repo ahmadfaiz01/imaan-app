@@ -15,8 +15,6 @@ const AyatOfTheDay = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // In a real implementation, this would fetch from an API
-    // For now, we'll use a placeholder
     setTimeout(() => {
       setAyat({
         text: "وَلَقَدْ يَسَّرْنَا الْقُرْآنَ لِلذِّكْرِ فَهَلْ مِن مُّدَّكِرٍ",
@@ -29,11 +27,15 @@ const AyatOfTheDay = () => {
   }, []);
 
   return (
-    <Card className="w-full">
+    <Card className="w-full neo-card animate-fade-in">
       <CardHeader>
         <CardTitle className="text-xl font-medium">Ayat of the Day</CardTitle>
         <CardDescription>
-          {!loading && ayat ? `${ayat.surah} ${ayat.ayat}` : <Skeleton className="h-4 w-40" />}
+          {!loading && ayat ? (
+            <span className="animate-fade-in">{`${ayat.surah} ${ayat.ayat}`}</span>
+          ) : (
+            <Skeleton className="h-4 w-40" />
+          )}
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -44,10 +46,12 @@ const AyatOfTheDay = () => {
             <Skeleton className="h-4 w-40 mx-auto mt-2" />
           </div>
         ) : (
-          <>
-            <p className="text-2xl text-right font-arabic mb-4">{ayat?.text}</p>
-            <p className="text-sm text-muted-foreground text-center">{ayat?.translation}</p>
-          </>
+          <div className="space-y-4">
+            <p className="text-2xl text-right font-arabic mb-4 animate-slide-in">{ayat?.text}</p>
+            <p className="text-sm text-muted-foreground text-center animate-fade-in transition-all hover:scale-105">
+              {ayat?.translation}
+            </p>
+          </div>
         )}
       </CardContent>
     </Card>

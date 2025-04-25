@@ -1,9 +1,9 @@
-
 import { Link } from "react-router-dom";
 import { Home, Search, BookOpen, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuLink } from "@/components/ui/navigation-menu";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 const Header = () => {
   return (
@@ -48,31 +48,36 @@ const Header = () => {
           </NavigationMenuList>
         </NavigationMenu>
         
-        {/* Mobile Navigation */}
-        <Sheet>
-          <SheetTrigger asChild className="md:hidden">
-            <Button variant="outline" size="icon">
-              <Menu className="h-5 w-5" />
-              <span className="sr-only">Toggle menu</span>
-            </Button>
-          </SheetTrigger>
-          <SheetContent side="left">
-            <nav className="flex flex-col gap-4 mt-8">
-              <Link to="/" className="flex items-center gap-2 px-2 py-1 rounded-md hover:bg-accent">
-                <Home className="h-5 w-5" />
-                <span>Home</span>
-              </Link>
-              <Link to="/quran" className="flex items-center gap-2 px-2 py-1 rounded-md hover:bg-accent">
-                <BookOpen className="h-5 w-5" />
-                <span>Quran</span>
-              </Link>
-              <Link to="/search" className="flex items-center gap-2 px-2 py-1 rounded-md hover:bg-accent">
-                <Search className="h-5 w-5" />
-                <span>Search</span>
-              </Link>
-            </nav>
-          </SheetContent>
-        </Sheet>
+        {/* Theme Toggle */}
+        <div className="flex items-center gap-4">
+          <ThemeToggle />
+          
+          {/* Mobile Navigation */}
+          <Sheet>
+            <SheetTrigger asChild className="md:hidden">
+              <Button variant="outline" size="icon">
+                <Menu className="h-5 w-5" />
+                <span className="sr-only">Toggle menu</span>
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="left">
+              <nav className="flex flex-col gap-4 mt-8">
+                <Link to="/" className="flex items-center gap-2 px-2 py-1 rounded-md hover:bg-accent">
+                  <Home className="h-5 w-5" />
+                  <span>Home</span>
+                </Link>
+                <Link to="/quran" className="flex items-center gap-2 px-2 py-1 rounded-md hover:bg-accent">
+                  <BookOpen className="h-5 w-5" />
+                  <span>Quran</span>
+                </Link>
+                <Link to="/search" className="flex items-center gap-2 px-2 py-1 rounded-md hover:bg-accent">
+                  <Search className="h-5 w-5" />
+                  <span>Search</span>
+                </Link>
+              </nav>
+            </SheetContent>
+          </Sheet>
+        </div>
       </div>
     </header>
   );

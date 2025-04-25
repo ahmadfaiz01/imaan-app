@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Timer } from "lucide-react";
 
 interface PrayerTime {
   name: string;
@@ -14,8 +15,6 @@ const PrayerTimes = () => {
   const [loading, setLoading] = useState(true);
   
   useEffect(() => {
-    // In a real implementation, this would use geolocation and fetch from an API
-    // For now, we'll use placeholders
     setTimeout(() => {
       setLocation("New York, US");
       setPrayerTimes([
@@ -34,14 +33,17 @@ const PrayerTimes = () => {
   };
 
   return (
-    <Card className="w-full">
+    <Card className="w-full neo-card animate-fade-in">
       <CardHeader>
-        <CardTitle className="text-xl font-medium">Prayer Times</CardTitle>
+        <div className="flex items-center gap-2">
+          <Timer className="h-5 w-5 animate-bounce-slow text-neoYellow" />
+          <CardTitle className="text-xl font-medium">Prayer Times</CardTitle>
+        </div>
         <CardDescription className="flex justify-between">
           {!loading ? (
             <>
-              <span>{location}</span>
-              <span>{getCurrentTime()}</span>
+              <span className="animate-fade-in">{location}</span>
+              <span className="animate-fade-in">{getCurrentTime()}</span>
             </>
           ) : (
             <Skeleton className="h-4 w-full" />
@@ -60,10 +62,14 @@ const PrayerTimes = () => {
           </div>
         ) : (
           <div className="space-y-2">
-            {prayerTimes.map((prayer) => (
-              <div key={prayer.name} className="flex justify-between">
-                <span className="font-medium">{prayer.name}</span>
-                <span>{prayer.time}</span>
+            {prayerTimes.map((prayer, index) => (
+              <div 
+                key={prayer.name} 
+                className="flex justify-between p-2 rounded-lg transition-all hover:bg-accent animate-fade-in"
+                style={{ animationDelay: `${index * 100}ms` }}
+              >
+                <span className="font-medium text-neoGreen">{prayer.name}</span>
+                <span className="text-primary">{prayer.time}</span>
               </div>
             ))}
           </div>
