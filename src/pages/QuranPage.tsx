@@ -6,6 +6,8 @@ import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { fetchSurahs } from "@/services/quranApi";
 import { useQuery } from "@tanstack/react-query";
+import AudioPlayer from "@/components/AudioPlayer";
+import Reciters from "@/components/Reciters";
 
 const QuranPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -78,7 +80,6 @@ const QuranPage = () => {
         <div className="container py-8">
           <h2 className="text-2xl font-semibold mb-6">Available Reciters</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {/* We'll use the same reciters for now, in a real app this would come from an API */}
             <Reciters />
           </div>
         </div>
