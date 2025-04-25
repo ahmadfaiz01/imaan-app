@@ -1,29 +1,28 @@
 
 import Header from "@/components/Header";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
-
-const surahs = [
-  { number: 1, name: "Al-Fatiha", nameArabic: "الفاتحة", verses: 7 },
-  { number: 2, name: "Al-Baqarah", nameArabic: "البقرة", verses: 286 },
-  { number: 3, name: "Ali 'Imran", nameArabic: "آل عمران", verses: 200 },
-  { number: 4, name: "An-Nisa", nameArabic: "النساء", verses: 176 },
-  { number: 5, name: "Al-Ma'idah", nameArabic: "المائدة", verses: 120 },
-  // Add more surahs as needed
-];
+import { fetchSurahs } from "@/services/quranApi";
+import { useQuery } from "@tanstack/react-query";
 
 const QuranPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedSurah, setSelectedSurah] = useState<number | null>(null);
   
-  const filteredSurahs = surahs.filter(surah => 
-    surah.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+  const { data: surahs, isLoading } = useQuery({
+    queryKey: ['surahs'],
+    queryFn: fetchSurahs
+  });
+  
+  const filteredSurahs = surahs?.filter(surah => 
+    surah.englishName.toLowerCase().includes(searchQuery.toLowerCase()) || 
     surah.number.toString().includes(searchQuery)
-  );
+  ) ?? [];
 
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="min-h-screen flex flex-col bg-background pb-20">
       <Header />
       
       <div className="container py-8">
@@ -40,24 +39,52 @@ const QuranPage = () => {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {filteredSurahs.map((surah) => (
-            <Card key={surah.number} className="hover:border-primary transition-colors cursor-pointer">
-              <CardHeader>
-                <div className="flex justify-between items-center">
-                  <span className="h-8 w-8 rounded-full bg-primary/10 text-primary flex items-center justify-center">
-                    {surah.number}
-                  </span>
-                  <span className="text-xl font-arabic">{surah.nameArabic}</span>
-                </div>
-                <CardTitle>{surah.name}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">Verses: {surah.verses}</p>
-              </CardContent>
-            </Card>
-          ))}
+          {isLoading ? (
+            [...Array(9)].map((_, i) => (
+              <Card key={i} className="animate-pulse">
+                <CardHeader>
+                  <div className="h-8 bg-muted rounded"></div>
+                </CardHeader>
+                <CardContent>
+                  <div className="h-4 bg-muted rounded w-24"></div>
+                </CardContent>
+              </Card>
+            ))
+          ) : (
+            filteredSurahs.map((surah) => (
+              <Card 
+                key={surah.number} 
+                className="hover:border-primary transition-colors cursor-pointer"
+                onClick={() => setSelectedSurah(surah.number)}
+              >
+                <CardHeader>
+                  <div className="flex justify-between items-center">
+                    <span className="h-8 w-8 rounded-full bg-primary/10 text-primary flex items-center justify-center">
+                      {surah.number}
+                    </span>
+                  </div>
+                  <CardTitle>{surah.englishName}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground">Verses: {surah.numberOfAyahs}</p>
+                </CardContent>
+              </Card>
+            ))
+          )}
         </div>
       </div>
+      
+      {selectedSurah && (
+        <div className="container py-8">
+          <h2 className="text-2xl font-semibold mb-6">Available Reciters</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {/* We'll use the same reciters for now, in a real app this would come from an API */}
+            <Reciters />
+          </div>
+        </div>
+      )}
+      
+      <AudioPlayer />
       
       <footer className="border-t mt-auto">
         <div className="container py-6 text-center text-sm text-muted-foreground">

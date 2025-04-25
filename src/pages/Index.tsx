@@ -3,10 +3,12 @@ import Header from "@/components/Header";
 import AyatOfTheDay from "@/components/AyatOfTheDay";
 import PrayerTimes from "@/components/PrayerTimes";
 import FeaturedContent from "@/components/FeaturedContent";
+import Reciters from "@/components/Reciters";
+import AudioPlayer from "@/components/AudioPlayer";
 
 const Index = () => {
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="min-h-screen flex flex-col bg-background pb-20">
       <Header />
       
       {/* Hero Section */}
@@ -16,6 +18,9 @@ const Index = () => {
           <PrayerTimes />
         </div>
       </section>
+      
+      {/* Reciters Section */}
+      <Reciters />
       
       {/* Featured Content */}
       <FeaturedContent />
@@ -42,6 +47,9 @@ const Index = () => {
           © {new Date().getFullYear()} IslamicAudio | All rights reserved
         </div>
       </footer>
+
+      {/* Audio Player */}
+      <AudioPlayer />
     </div>
   );
 };
