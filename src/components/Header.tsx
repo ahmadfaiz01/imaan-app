@@ -1,6 +1,6 @@
 
 import { Link } from "react-router-dom";
-import { Home, Search, BookOpen, User, Menu } from "lucide-react";
+import { Home, Search, BookOpen, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuLink } from "@/components/ui/navigation-menu";
@@ -10,8 +10,12 @@ const Header = () => {
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between">
         <Link to="/" className="flex items-center gap-2">
-          <BookOpen className="h-6 w-6" />
-          <span className="font-semibold text-xl">IslamicAudio</span>
+          <img 
+            src="/lovable-uploads/99bacf3c-bdf7-41a2-b8f4-a319a4d1b031.png" 
+            alt="Imaan Logo" 
+            className="h-8 w-8"
+          />
+          <span className="font-semibold text-xl">Imaan</span>
         </Link>
         
         {/* Desktop Navigation */}
